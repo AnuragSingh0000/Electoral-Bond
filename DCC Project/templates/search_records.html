@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <style>
+    /* Define your own CSS styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 10px auto;
+      padding: 10px;
+    }
+
+    select,
+    input[type="text"],
+    input[type="submit"] {
+      margin: 5px 0;
+      padding: 5px;
+      width: calc(100% - 10px);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .no-data {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <form action="/search_records" method="POST">
+      <label><b>Select the Table and column using which you want to filter the data</b></label><br>
+
+      <label> Table :
+        <select name="table_selecter" id="table_selecter">
+          <option value="Purchased" selected>Purchased</option>
+          <option value="Encashed">Encashed</option>
+        </select>
+      </label>
+
+      <select name="Fields_Encashed" id="dpdn1">
+        <option value="Bond_Number">Bond Number</option>
+        <option value="Name_of_the_Political_Party">Name of the political Party</option>
+        <option value="Account_no_of_the_Political_Party">Account number of the political Party</option>
+        <option value="Denominations">Denominations</option>
+        <option value="Pay_Branch_Code">Pay Branch Code</option>
+        <option value="Pay Teller">Pay Teller</option>
+        <option value="Date_of_Encashment">Date of Encashment</option>
+      </select>
+
+      <select name="Fields_Purchased" id="dpdn2">
+        <option value="Bond_Number">Bond Number</option>
+        <option value="Name_of_the_Purchaser">Name of the Purchaser</option>
+        <option value="Journal_Date">Journal Date</option>
+        <option value="Date_of_Purchase">Date of Purchase</option>
+        <option value="Date_of_Expiry">Date of Expiry</option>
+        <option value="Issue_Branch_Code">Issue Branch Code</option>
+        <option value="Issue_Teller">Issue Teller</option>
+        <option value="Reference_Number_URN">Reference Number (URN)</option>
+      </select>
+
+      <input type="text" name="Field_val" />
+
+      <input type="submit" value="Submit" class="btn btn-dark" />
+    </form>
+
+    {%if result%}
+    <div class="table_display">
+      <table>
+        <thead>
+          {%if table == "Encashed"%}
+          <tr>
+            <th>Sr.No</th>
+            <th>Date of Encashment</th>
+            <th>Name of Political Party</th>
+            <th>Account number of Political Party</th>
+            <th>Prefix</th>
+            <th>Bond Number</th>
+            <th>Denominations</th>
+            <th>Pay Branch Code</th>
+            <th>Pay Teller Code</th>
+          </tr>
+          {%else%}
+          <tr>
+            <th>Sr.No</th>
+            <th>Reference Number (URN)</th>
+            <th>Journal Date</th>
+            <th>Date of Purchase</th>
+            <th>Date of Expiry</th>
+            <th>Name of the Purchaser</th>
+            <th>Prefix</th>
+            <th>Bond Number</th>
+            <th>Denominations</th>
+            <th>Issue Branch Code</th>
+            <th>Isuue Teller</th>
+            <th>Status</th>
+          </tr>
+          {%endif%}
+        </thead>
+
+        <tbody>
+          {% if result == "NA"%}
+          <tr>
+            <td colspan="14" class="no-data">No Data Found</td>
+          </tr>
+          {%else%}
+          {% for item in result %}
+          <tr>
+            {% for cell in item %}
+            <td>{{cell}}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+          {%endif%}
+        </tbody>
+
+      </table>
+    </div>
+    {%endif%}
+
+    <script>
+      document.querySelector("#dpdn1").style.display = 'none'
+      document.getElementById('table_selecter').addEventListener('change', (e) => {
+        if (e.target.value === "Purchased") {
+          document.getElementById('dpdn1').style.display = 'none'
+          document.getElementById('dpdn2').style.display = ''
+        } else {
+          document.getElementById('dpdn1').style.display = ''
+          document.getElementById('dpdn2').style.display = 'none'
+        }
+      })
+    </script>
+
+</body>
+
+</html>
