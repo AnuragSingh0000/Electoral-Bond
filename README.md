@@ -52,4 +52,5 @@ Created and showcased plots using data fetched from the database.
 Used ChartJS for displaying the plots, including bar charts, line charts, and pie charts.
 Designed new ways to display results using unique plot types with ChartJS.
 Note: For the detailed implementation of the website and backend functionality, please refer to the code in this repository. Screenshots of the UI can be found in the Readme file of the repository.
+You can get the Dump file of the SQL Databases and all the code in Dcc Project folder
 
